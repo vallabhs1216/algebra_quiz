@@ -1,4 +1,4 @@
-# Compoenet 3 - Asks user for what difficulty they want the questions to be
+# Component 3 - Asks user for what difficulty they want the questions to be
 def difficulty_checker(question):
     while True:
         response = input(question).lower()

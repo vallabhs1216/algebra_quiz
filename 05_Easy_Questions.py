@@ -1,4 +1,7 @@
-# Component 3 - Asks user for what difficulty they want the questions to be
+import random
+
+
+# Asks user for what difficulty they want the questions to be
 def difficulty_checker(question, valid_list, error):
     while True:
         response = input(question).lower()
@@ -22,13 +25,14 @@ difficulty_list = ["easy", "medium", "hard"]
 difficulty = difficulty_checker("What difficulty would you like the questions: ",
                                 difficulty_list, "Please pick easy (e), medium (m)"
                                                  ", or hard (h)")
-
+x = random.randint(1, 10)
+num1 = random.randint(1, 50)
+num2 = random.randint(1,50)
 # Tells us difficulty selected
 if difficulty == "easy":
     print("Easy difficulty")
 
-elif difficulty == "medium":
-    print("Medium difficulty")
+    easy_question = f"{num2} * {x} + {num1}"
+    print(easy_question)
+    answer = num2 * x + num1
 
-elif difficulty == "hard":
-    print("Hard difficulty")

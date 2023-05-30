@@ -1,4 +1,3 @@
-import math
 import random
 
 
@@ -59,23 +58,32 @@ while True:
     # Tells us difficulty selected
     if difficulty == "easy":
         print("Easy difficulty")
-        guesses = 3
 
         # Generates values for question
-        x = random.randint(1, 10)
         num1 = random.randint(1, 20)
         num2 = random.randint(1, 20)
+        x = random.randint(1, 10)
         num3 = num1 * x + num2
+        guesses = 3
 
-        while guesses >= 1:
+        # Loops the same question until answer is correct or guess run out
+        while True:
 
+            # Prints question for the user to see what they are trying to guess
             easy_question = f"{num1} * x + {num2} = {num3}"
             print(easy_question)
+
+            # Checks for users input
             guess = num_check("Answer: ", 1, "xxx")
+
+            # Checks if guess is correct or incorrect, lets user know
             if guess == x:
                 print("Correct")
-                continue
-            elif guess != x:
-                guesses -= 1
+                break
+            elif guesses >= 1:
                 print(f"Incorrect, you still have {guesses} tries left")
+            elif guesses == 0:
+                print(f"Sorry you ran out of guesses, 'x' was {x}")
+                break
+            guesses -= 1
 

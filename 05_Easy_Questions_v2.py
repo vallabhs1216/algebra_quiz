@@ -49,27 +49,25 @@ difficulty = difficulty_checker("What difficulty would you like the questions: "
                                                  ", or hard (h)")
 while True:
     # Tells us difficulty selected
-    if difficulty == "medium":
-        print("medium difficulty")
-        print()
+    if difficulty == "easy":
+        print("easy difficulty")
 
         # Generates values for question
         num1 = random.randint(1, 20)
-        x = random.randint(1, 20)
-        num3 = num1 * x
-        guesses = 2
+        num2 = random.randint(1, 20)
+        x = random.randint(1, 10)
+        num3 = num1 + x
+        guesses = 3
 
         # Loops the same question until answer is correct or guess run out
         while guesses > 0:
 
             # Prints question for the user to see what they are trying to guess
-            easy_question = f"{num1} * x = {num3}"
+            easy_question = f"{num1} + x = {num3}"
             print(easy_question)
-            print()
 
             # Checks for users input
             guess = num_check("Find the value of X: ", 1, "xxx")
-            print()
 
             # Checks if guess is correct or incorrect, lets user know
             if guess == x:

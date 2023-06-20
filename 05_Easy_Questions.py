@@ -65,11 +65,11 @@ while True:
         x = random.randint(1, 10)
         num1 = random.randint(1, 20)
         num2 = random.randint(1, 20)
-        num3 = num1 * x + num2
+        num3 = num1 + x
 
         while guesses >= 1:
 
-            easy_question = f"{num1} * x + {num2} = {num3}"
+            easy_question = f"{num1} + x = {num3}"
             print(easy_question)
             guess = num_check("Answer: ", 1, "xxx")
             if guess == x:

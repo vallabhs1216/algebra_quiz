@@ -100,18 +100,19 @@ if show_instructions == "yes":
 difficulty_list = ["easy", "medium", "hard"]
 
 # Asks the user to select the difficulty
-difficulty = difficulty_checker("What difficulty would you like the questions: ",
+difficulty = difficulty_checker("What difficulty would you like the questions (easy, medium, or hard): ",
                                 difficulty_list, "Please pick 'easy' (e), 'medium' (m), or 'hard' (h)")
 print()
 
 # Loops the quiz questions
-play_again = "yes"
-while play_again == "yes" or play_again == "y":
+try_again = "yes"
+while try_again == "yes" or try_again == "y":
 
     # Sets rounds played to zero and asks for the number of rounds
     rounds_played = 0
     rounds = check_rounds()
-
+    test_results = []
+    results = ""
     # Checks if mode is regular and prints short instruction
     start = ""
     mode = "regular"
@@ -129,10 +130,10 @@ while play_again == "yes" or play_again == "y":
         print()
 
         if mode == "infinite":
-            heading = f"Continuous Mode: Round {rounds_played + 1}"
+            heading = f"Continuous Mode: Question {rounds_played + 1}"
             rounds += 1
         else:
-            heading = f"Round {rounds_played + 1} of {rounds}"
+            heading = f"Question {rounds_played + 1} of {rounds}"
         print(heading)
         print(f"{choose_instruction} or 'xxx' to end ")
 
@@ -149,12 +150,14 @@ while play_again == "yes" or play_again == "y":
             print()
 
             # Calculates guessed allowed and guesses left
-            guesses_allowed = 3
-            guesses_left = guesses_allowed
+            attempts_allowed = 3
+            attempts_left = attempts_allowed
             # Holds a list of already guessed values
-            already_guessed = []
+            already_attempted = []
+            scores = []
+            result = ""
             # Loops the same question until the answer is correct or the guesses run out
-            while guesses_left >= 1:
+            while attempts_left >= 1:
 
                 # Prints the question for the user to see what they are trying to guess
                 easy_question = f"{num1} + x = {num3}"
@@ -162,31 +165,41 @@ while play_again == "yes" or play_again == "y":
                 print()
 
                 # Checks the user's input
-                guess = num_check("Find the value of X: ", 1, "xxx")
+                attempt = num_check("Find the value of X: ", 1, "xxx")
 
                 # Checks if the guess is correct or incorrect and lets the user know
-                if guess == x:
+                if attempt == x:
                     print("Correct")
+                    result = "correct"
                     break
 
-                if guess == "xxx":
+                if attempt == "xxx":
                     rounds_played = rounds
                     break
 
-                if guess in already_guessed:
+                if attempt in already_attempted:
                     print(
-                        f"You already guessed that number! Please try again. You still have {guesses_left} guesses left")
+                        f"You already tried that number! "
+                        f"Please try again. You still have "
+                        f"{attempts_left} attempts left")
                     continue
-                guesses_left -= 1
-                already_guessed.append(guess)
+                attempts_left -= 1
+                already_attempted.append(attempt)
 
-                if guesses_left >= 1:
-                    print(f"Incorrect, you still have {guesses_left} guesses left!")
+                if attempts_left >= 1:
+                    print(f"Incorrect, you still have {attempts_left} guesses left!")
 
             # When the guesses run out, tell the user and let them know what "X" was
-            if guesses_left == 0:
-                print(f"Sorry, you ran out of guesses. 'x' was {x}")
-                continue
+            if attempts_left == 0:
+                print(f"Sorry, you ran out of attempts. 'x' was {x}")
+                result = "incorrect"
+
+            # gets results for game history
+            tries_taken = ""
+            if result == "correct":
+                tries_taken = f"| it took {3 - attempts_left + 1} attempt(s)"
+            feedback = f"{result} {tries_taken}"
+            test_results.append(feedback)
 
         # Checks if difficulty is medium
         if difficulty == "medium":
@@ -199,12 +212,13 @@ while play_again == "yes" or play_again == "y":
             print()
 
             # Calculates guessed allowed and guesses left
-            guesses_allowed = 2
-            guesses_left = guesses_allowed
+            attempts_allowed = 2
+            attempts_left = attempts_allowed
             # Holds a list of already guessed values
-            already_guessed = []
+            already_attempted = []
+            result = ""
             # Loops the same question until the answer is correct or the guesses run out
-            while guesses_left > 0:
+            while attempts_left > 0:
 
                 # Prints the question for the user to see what they are trying to guess
                 medium_question = f"{num1} * x = {num3}"
@@ -212,32 +226,44 @@ while play_again == "yes" or play_again == "y":
                 print()
 
                 # Checks the user's input
-                guess = num_check("Find the value of X: ", 1, "xxx")
+                attempt = num_check("Find the value of X: ", 1, "xxx")
                 print()
 
                 # Checks if the guess is correct or incorrect and lets the user know
-                if guess == x:
+
+                if attempt == x:
                     print("Correct")
+                    result = "correct"
                     break
 
-                if guess == "xxx":
+                if attempt == "xxx":
                     rounds_played = rounds
                     break
 
-                if guess in already_guessed:
+                if attempt in already_attempted:
                     print(
-                        f"You already guessed that number! Please try again. You still have {guesses_left} guesses left")
+                        f"You already tried that number! "
+                        f"Please try again. You still have "
+                        f"{attempts_left} attempts left")
                     continue
-                guesses_left -= 1
-                already_guessed.append(guess)
+                attempts_left -= 1
+                already_attempted.append(attempt)
 
-                if guesses_left >= 1:
-                    print(f"Incorrect, you still have {guesses_left} guesses left!")
+                if attempts_left >= 1:
+                    print(f"Incorrect, you still have {attempts_left} attempts left!")
 
             # When the guesses run out, tell the user and let them know what "X" was
-            if guesses_left == 0:
-                print(f"Sorry, you ran out of guesses. 'x' was {x}")
-                continue
+            if attempts_left == 0:
+                print(f"Sorry, you ran out of tries. 'x' was {x}")
+                result = "incorrect"
+
+            # gets results for game history
+            tries_taken = ""
+            if result == "correct":
+                tries_taken = f"| it took {2 - attempts_left + 1} attempt(s)"
+
+            feedback = f"{result} {tries_taken}"
+            test_results.append(feedback)
 
         # Checks if difficulty is hard
         if difficulty == "hard":
@@ -247,8 +273,9 @@ while play_again == "yes" or play_again == "y":
             num2 = random.randint(1, 20)
             num3 = num1 * x + num2
 
-            guesses_allowed = 1
-            guesses_left = guesses_allowed
+            attempts_allowed = 1
+            attempts_left = attempts_allowed
+            result = ""
 
             print("Hard Difficulty")
             print()
@@ -260,31 +287,45 @@ while play_again == "yes" or play_again == "y":
                 print()
 
                 # Checks the user's input
-                guess = num_check("Answer: ", 1, "xxx")
+                attempt = num_check("Answer: ", 1, "xxx")
 
-                # Checks if the guess is correct or incorrect and lets the user know the "X" value
-                if guess == x:
+                # Checks if the attempt is correct or incorrect and lets the user know the "X" value
+                if attempt == x:
                     print("Correct")
+                    result = "correct"
                     break
 
-                if guess == "xxx":
+                if attempt == "xxx":
                     rounds_played = rounds
                     break
 
                 else:
-                    print(f"Sorry, you ran out of guesses. 'x' was {x}")
+                    print(f"You didn't get it. 'x' was {x}")
+                    result = "incorrect"
                     break
 
-            if guesses_left == 0:
-                print(f"Your answer was incorrect. 'x' was {x}!")
-                continue
+                # gets results for game history
+            feedback = f"{result}"
+            test_results.append(feedback)
 
         # If the user enters the exit code, ask if they would like to play again
         if rounds_played == rounds:
-            print()
-            play_again = input("Would you like to play again? ")
 
-        if play_again == "no" or play_again == "n":
+            if rounds_played > 2:
+                game_history = input("Do you want to see your results? ")
+
+                if game_history == "yes" or game_history == "y":
+
+                    print()
+                    print("******** Test results ********")
+                    for results in test_results:
+                        print(results)
+
+            print()
+
+            try_again = input("Would you like to try again? ")
+
+        if try_again == "no" or try_again == "n":
             break
 
 print()

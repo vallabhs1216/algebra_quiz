@@ -17,6 +17,17 @@ def yes_no(question):
         else:
             print("Please answer yes / no")
 
+def statement_generator(statement, decoration):
+    sides = decoration * 3
+
+    statement = "{} {} {}".format(sides, statement, sides)
+    top_bottom = decoration * len(statement)
+
+    print(top_bottom)
+    print(statement)
+    print(top_bottom)
+
+    return ""
 
 def instructions():
     print("---------------------------")
@@ -89,6 +100,7 @@ def check_rounds():
 
 # main routine
 
+statement_generator("Algebra Quiz", "%")
 # Asks the user if they want to see the instructions
 show_instructions = yes_no("Would you like to see the instructions? ")
 print()
@@ -110,6 +122,7 @@ while try_again == "yes" or try_again == "y":
 
     # Sets rounds played to zero and asks for the number of rounds
     rounds_played = 0
+    print()
     rounds = check_rounds()
     test_results = []
     results = ""
@@ -146,7 +159,7 @@ while try_again == "yes" or try_again == "y":
             x = random.randint(1, 10)
             num3 = num1 + x
 
-            print("Easy Difficulty")
+            statement_generator("Easy Difficulty", "E")
             print()
 
             # Calculates guessed allowed and guesses left
@@ -208,7 +221,7 @@ while try_again == "yes" or try_again == "y":
             x = random.randint(1, 10)
             num3 = num1 * x
 
-            print("Medium Difficulty")
+            statement_generator("Medium Difficulty", "M")
             print()
 
             # Calculates guessed allowed and guesses left
@@ -277,7 +290,7 @@ while try_again == "yes" or try_again == "y":
             attempts_left = attempts_allowed
             result = ""
 
-            print("Hard Difficulty")
+            statement_generator("Hard Difficulty", "H")
             print()
 
             while True:
@@ -310,8 +323,9 @@ while try_again == "yes" or try_again == "y":
 
         # If the user enters the exit code, ask if they would like to play again
         if rounds_played == rounds:
+            print()
 
-            if rounds_played > 2:
+            if len(test_results) > 1:
                 game_history = input("Do you want to see your results? ")
 
                 if game_history == "yes" or game_history == "y":
@@ -320,8 +334,6 @@ while try_again == "yes" or try_again == "y":
                     print("******** Test results ********")
                     for results in test_results:
                         print(results)
-
-            print()
 
             try_again = input("Would you like to try again? ")
 

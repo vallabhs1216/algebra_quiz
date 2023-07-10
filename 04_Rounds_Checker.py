@@ -35,7 +35,7 @@ while end_game == "no":
     # Rounds Heading
     print()
     if rounds == "":
-        heading = f"Continuous Mode: Round {rounds_played + 1}"
+        heading = f"Continuous Mode: Question {rounds_played + 1}"
     else:
         heading = f"Round {rounds_played + 1} of " \
                   f"{rounds}"

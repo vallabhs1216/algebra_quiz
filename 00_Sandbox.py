@@ -310,8 +310,9 @@ while try_again == "yes" or try_again == "y":
 
         # If the user enters the exit code, ask if they would like to play again
         if rounds_played == rounds:
+            print()
 
-            if rounds_played > 2:
+            if len(test_results) > 1:
                 game_history = input("Do you want to see your results? ")
 
                 if game_history == "yes" or game_history == "y":
@@ -320,8 +321,6 @@ while try_again == "yes" or try_again == "y":
                     print("******** Test results ********")
                     for results in test_results:
                         print(results)
-
-            print()
 
             try_again = input("Would you like to try again? ")
 

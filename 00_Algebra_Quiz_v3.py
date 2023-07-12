@@ -159,8 +159,11 @@ while try_again == "yes" or try_again == "y":
             already_attempted = []
             scores = []
             result = ""
+
             # Loops the same question until the answer is correct or the guesses run out
             while attempts_left >= 1:
+                # Sets results to lose for default if user decides to quit
+                result = f"you didn't attempt the question | X was {x}"
 
                 # Prints the question for the user to see what they are trying to guess
                 easy_question = f"{num1} + x = {num3}"
@@ -201,7 +204,7 @@ while try_again == "yes" or try_again == "y":
             tries_taken = ""
             if result == "correct":
                 tries_taken = f"| it took {3 - attempts_left + 1} attempt(s)"
-            feedback = f"Round: {rounds_played + 1} {result} {tries_taken}"
+            feedback = f"Round {rounds_played}: {result} {tries_taken}"
             test_results.append(feedback)
 
         # Checks if difficulty is medium
@@ -222,6 +225,8 @@ while try_again == "yes" or try_again == "y":
             result = ""
             # Loops the same question until the answer is correct or the guesses run out
             while attempts_left > 0:
+                # Sets results to lose for default if user decides to quit
+                result = f"you didn't attempt the question | X was {x}"
 
                 # Prints the question for the user to see what they are trying to guess
                 medium_question = f"{num1} * x = {num3}"
@@ -265,7 +270,7 @@ while try_again == "yes" or try_again == "y":
             if result == "correct":
                 tries_taken = f"| it took {2 - attempts_left + 1} attempt(s)"
 
-            feedback = f"Round: {rounds_played + 1} {result} {tries_taken}"
+            feedback = f"Round {rounds_played}: {result} {tries_taken}"
             test_results.append(feedback)
 
         # Checks if difficulty is hard
@@ -278,12 +283,14 @@ while try_again == "yes" or try_again == "y":
 
             attempts_allowed = 1
             attempts_left = attempts_allowed
-            result = ""
+            # Sets results to lose for default if user decides to quit
+            result = f"you didn't attempt the question | X was {x}"
 
             statement_generator("Hard Difficulty", "H")
             print()
 
             while True:
+
                 # Prints the question for the user to see what they are trying to guess
                 hard_question = f"{num1} * x + {num2} = {num3}"
                 print(hard_question)
@@ -308,7 +315,7 @@ while try_again == "yes" or try_again == "y":
                     break
 
                 # gets results for game history
-            feedback = f"Round: {rounds_played + 1} {result}"
+            feedback = f"Round {rounds_played}: {result}"
             test_results.append(feedback)
 
         # If the user enters the exit code, ask if they would like to play again
@@ -316,9 +323,11 @@ while try_again == "yes" or try_again == "y":
             print()
 
             if len(test_results) > 1:
-                game_history = input("Do you want to see your results? ")
+                game_history = choice_checker(""
+                                              "Do you want to see your results? ",
+                                              yes_no_list, "Please enter yes or no")
 
-                if game_history == "yes" or game_history == "y":
+                if game_history == "yes":
 
                     print()
                     print("******** Test results ********")
@@ -329,7 +338,7 @@ while try_again == "yes" or try_again == "y":
                                        , yes_no_list,
                                        "Please enter yes (y) or no (n)")
 
-        if try_again == "no" or try_again == "n":
+        if try_again == "no":
             break
 
 print()

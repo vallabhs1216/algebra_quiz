@@ -3,19 +3,17 @@ import random
 
 # Component 1
 
-def yes_no(question):
-    valid = False
-    while not valid:
-        response = input(question).lower()
+def statement_generator(statement, decoration):
+    sides = decoration * 3
 
-        if response == "yes" or response == "y":
-            return "yes"
+    statement = "{} {} {}".format(sides, statement, sides)
+    top_bottom = decoration * len(statement)
 
-        elif response == "no" or response == "n":
-            return "no"
+    print(top_bottom)
+    print(statement)
+    print(top_bottom)
 
-        else:
-            print("Please answer yes / no")
+    return ""
 
 
 def instructions():
@@ -34,18 +32,18 @@ def instructions():
 
 
 # Asks user for what difficulty they want the questions to be
-def difficulty_checker(question, valid_list, error):
-    while True:
+def choice_checker(question, valid_list, error):
+    valid = False
+    while not valid:
+        # Ask user for choice
         response = input(question).lower()
-        # Checks if response is in list of values
-        # returns appropriate response
+
         for item in valid_list:
-            # Accepts single letter or whole word as valid response
             if response == item[0] or response == item:
-                response = item
-                return response
+                return item
 
         print(error)
+        print()
 
 
 def num_check(question, low=None, exit_code=None):
@@ -88,20 +86,24 @@ def check_rounds():
 
 
 # main routine
+# List of difficulties
+difficulty_list = ["easy", "medium", "hard"]
+# Yes No list
+yes_no_list = ["yes", "no"]
+
+statement_generator("Algebra Quiz", "%")
 
 # Asks the user if they want to see the instructions
-show_instructions = yes_no("Would you like to see the instructions? ")
+show_instructions = choice_checker("Would you like to see the instructions? ", yes_no_list, "Please select 'Yes' or "
+                                                                                            "'No'")
 print()
 
 if show_instructions == "yes":
     instructions()
 
-# List of difficulties
-difficulty_list = ["easy", "medium", "hard"]
-
 # Asks the user to select the difficulty
-difficulty = difficulty_checker("What difficulty would you like the questions (easy, medium, or hard): ",
-                                difficulty_list, "Please pick 'easy' (e), 'medium' (m), or 'hard' (h)")
+difficulty = choice_checker("What difficulty would you like the questions (easy, medium, or hard): ",
+                            difficulty_list, "Please pick 'easy' (e), 'medium' (m), or 'hard' (h)")
 print()
 
 # Loops the quiz questions
@@ -110,6 +112,7 @@ while try_again == "yes" or try_again == "y":
 
     # Sets rounds played to zero and asks for the number of rounds
     rounds_played = 0
+    print()
     rounds = check_rounds()
     test_results = []
     results = ""
@@ -146,7 +149,7 @@ while try_again == "yes" or try_again == "y":
             x = random.randint(1, 10)
             num3 = num1 + x
 
-            print("Easy Difficulty")
+            statement_generator("Easy Difficulty", "E")
             print()
 
             # Calculates guessed allowed and guesses left
@@ -192,13 +195,13 @@ while try_again == "yes" or try_again == "y":
             # When the guesses run out, tell the user and let them know what "X" was
             if attempts_left == 0:
                 print(f"Sorry, you ran out of attempts. 'x' was {x}")
-                result = "incorrect"
+                result = f"incorrect | X was {x}"
 
             # gets results for game history
             tries_taken = ""
             if result == "correct":
                 tries_taken = f"| it took {3 - attempts_left + 1} attempt(s)"
-            feedback = f"{result} {tries_taken}"
+            feedback = f"Round: {rounds_played} {result} {tries_taken}"
             test_results.append(feedback)
 
         # Checks if difficulty is medium
@@ -208,7 +211,7 @@ while try_again == "yes" or try_again == "y":
             x = random.randint(1, 10)
             num3 = num1 * x
 
-            print("Medium Difficulty")
+            statement_generator("Medium Difficulty", "M")
             print()
 
             # Calculates guessed allowed and guesses left
@@ -255,14 +258,14 @@ while try_again == "yes" or try_again == "y":
             # When the guesses run out, tell the user and let them know what "X" was
             if attempts_left == 0:
                 print(f"Sorry, you ran out of tries. 'x' was {x}")
-                result = "incorrect"
+                result = f"incorrect | X was {x}"
 
             # gets results for game history
             tries_taken = ""
             if result == "correct":
                 tries_taken = f"| it took {2 - attempts_left + 1} attempt(s)"
 
-            feedback = f"{result} {tries_taken}"
+            feedback = f"Round: {rounds_played} {result} {tries_taken}"
             test_results.append(feedback)
 
         # Checks if difficulty is hard
@@ -277,7 +280,7 @@ while try_again == "yes" or try_again == "y":
             attempts_left = attempts_allowed
             result = ""
 
-            print("Hard Difficulty")
+            statement_generator("Hard Difficulty", "H")
             print()
 
             while True:
@@ -301,11 +304,11 @@ while try_again == "yes" or try_again == "y":
 
                 else:
                     print(f"You didn't get it. 'x' was {x}")
-                    result = "incorrect"
+                    result = f"incorrect | X was {x}"
                     break
 
                 # gets results for game history
-            feedback = f"{result}"
+            feedback = f"Round {rounds_played}: {result}"
             test_results.append(feedback)
 
         # If the user enters the exit code, ask if they would like to play again
@@ -322,7 +325,9 @@ while try_again == "yes" or try_again == "y":
                     for results in test_results:
                         print(results)
 
-            try_again = input("Would you like to try again? ")
+            try_again = choice_checker("Would you like to try again? "
+                                       , yes_no_list,
+                                       "Please enter yes (y) or no (n)")
 
         if try_again == "no" or try_again == "n":
             break
